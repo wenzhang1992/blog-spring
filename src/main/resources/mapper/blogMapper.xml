@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.demo.DAO.BlogDao">
-    <select id="getBlogByOwner" resultType="blogItem">
+    <select id="getBlogByOwner" resultMap="blogItem" parameterType="String">
         select * from blogTable where owner = #{owner}
     </select>
 
-    <select id="getBlogByType" resultType="blogItem">
+    <select id="getBlogByType" resultMap="blogItem" parameterType="String">
         select * from blogTable where type = #{type}
     </select>
 
-    <select id="getBlogByTypeAndOwner" resultType="blogItem">
+    <select id="getBlogByTypeAndOwner" resultMap="blogItem" parameterType="String">
         select * from blogTable where type = #{type} and owner = #{owner}
     </select>
 
-    <select id="getBlogByOwnerAndTitle" resultType="blogItem">
+    <select id="getBlogByOwnerAndTitle" resultMap="blogItem" parameterType="String">
         select * from blogTable where owner = #{owner} and title = #{title}
     </select>
 
-    <select id="getBlogByTitle" resultType="blogItem">
+    <select id="getBlogByTitle" resultType="blogItem" parameterType="String">
         select * from blogTable where title = #{title}
     </select>
 
-    <select id="getAllBlog" resultType="blogItem">
+    <select id="getAllBlog" resultMap="blogItem">
         select * from blogTable
     </select>
 
     <insert id="insertBlog" parameterType="blogItem" useGeneratedKeys="true" keyProperty="id">
         insert  into blogTable(id,link,title,description,owner,type)
-        value(#{id},#{link},#{title},#{description,#{owner},#{type})
+        value(#{id},#{link},#{title},#{description},#{owner},#{type})
     </insert>
 
     <delete id="deleteBlogByTitle" parameterType="String">
@@ -41,5 +41,13 @@
     <delete id="deleteBlogByType" parameterType="String">
         delete from blogTable where type = #{type}
     </delete>
+
+    <resultMap id="blogItem" type="BlogItem">
+        <result property="link" column="link"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="owner" column="owner"/>
+        <result property="type" column="type"/>
+    </resultMap>
 
 </mapper>

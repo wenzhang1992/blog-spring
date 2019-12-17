@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.demo.DAO.UserDao">
 
-    <select id="getAllUser" resultType="User">
+    <select id="getAllUser" resultMap="User">
         select * from usertable 
     </select>
     
@@ -10,16 +10,17 @@
         select * from usertable where account = #{account}
     </select>
 
-    <select id="getUserByPassword" parameterType="String" resultType="User">
+    <select id="getUserByPassword" parameterType="String" resultMap="User">
         select * from usertable where password = #{password}
     </select>
 
-    <select id="getUserByLevel" parameterType="int" resultType="User">
+    <select id="getUserByLevel" parameterType="int" resultMap="User">
         select * from usertable where level = #{level}
     </select>
 
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into usertable(id,account,password,level) value(#{id},#{account},#{password},#{level})
+        insert into usertable(id,account,password,level)
+        value(#{id},#{account},#{password},#{level})
     </insert>
 
     <delete id="deleteUserByAccount" parameterType="String">
@@ -34,4 +35,10 @@
         delete from usertable where level = #{level}
     </delete>
 
+    <resultMap id="User" type="User">
+        <id property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="passWord" column="passWord"/>
+        <result property="level" column="level"/>
+    </resultMap>
 </mapper>

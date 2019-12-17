@@ -8,20 +8,17 @@ import com.spring.demo.Service.Interface.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@ComponentScan("com.spring.demo.Service")
+//@ComponentScan("com.spring.demo.Service")
 @RestController
 public class loginControl {
 
     @Autowired
     private IUserService service;
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public loginResponseObj login(
             @RequestParam(value="userName",required = true)String userName,
             @RequestParam(value="passWord",required = true)String passWord
