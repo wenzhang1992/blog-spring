@@ -1,18 +1,20 @@
 package com.spring.demo.DAO;
 
 import com.spring.demo.Entity.BlogItem;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlogDao {
-
     public BlogItem[] getBlogByOwner(String owner);
 
     public BlogItem[] getBlogByType(String type);
 
-    public BlogItem[] getBlogByTypeAndOwner(String owner,String type);
+    //mybatis多参数传参，使用Param注解
+    public BlogItem[] getBlogByTypeAndOwner(@Param("owner") String owner, @Param("type") String type);
 
-    public BlogItem[] getBlogByOwnerAndTitle(String owner,String title);
+    //mybatis多参数传参，使用Param注解
+    public BlogItem[] getBlogByOwnerAndTitle(@Param("owner") String owner,@Param("title") String title);
 
     public BlogItem[] getAllBlog();
 

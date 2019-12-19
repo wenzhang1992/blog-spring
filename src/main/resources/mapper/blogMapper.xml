@@ -6,11 +6,11 @@
     </select>
 
     <select id="getBlogByType" resultMap="blogItem" parameterType="String">
-        select * from blogTable where type = #{type}
+        select * from blogTable where blogtype = #{type}
     </select>
 
     <select id="getBlogByTypeAndOwner" resultMap="blogItem" parameterType="String">
-        select * from blogTable where type = #{type} and owner = #{owner}
+        select * from blogTable where blogtype = #{type} and owner = #{owner}
     </select>
 
     <select id="getBlogByOwnerAndTitle" resultMap="blogItem" parameterType="String">
@@ -39,7 +39,7 @@
     </delete>
 
     <delete id="deleteBlogByType" parameterType="String">
-        delete from blogTable where type = #{type}
+        delete from blogTable where blogtype = #{type}
     </delete>
 
     <resultMap id="blogItem" type="BlogItem">
@@ -47,7 +47,7 @@
         <result property="title" column="title"/>
         <result property="description" column="description"/>
         <result property="owner" column="owner"/>
-        <result property="type" column="type"/>
+        <result property="type" column="blogtype"/>
     </resultMap>
 
 </mapper>

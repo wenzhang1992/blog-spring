@@ -18,7 +18,7 @@ public class loginControl {
     @Autowired
     private IUserService service;
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public loginResponseObj login(
             @RequestParam(value="userName",required = true)String userName,
             @RequestParam(value="passWord",required = true)String passWord

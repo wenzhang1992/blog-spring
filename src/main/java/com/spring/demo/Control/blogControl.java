@@ -8,20 +8,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
+@RestController
 public class blogControl {
 
     @Autowired
     private IBlogService service;
 
-    @GetMapping("/getListByOwner")
+    @GetMapping("/api/getListByOwner")
     @ResponseBody
     public BlogItem[] getListByOwner(
-            @RequestParam(value="Owner",required = true)String owner
+            @RequestParam(value="Owner",required = true)String owner,
+            @RequestParam(value="type",required = true)String type
     ){
         try{
-            BlogItem[] ret = service.getBlogByOwner(owner);
+            BlogItem[] ret = service.getBlogByTypeAndOwner(owner,type);
             return ret;
         }catch (Exception ex){
             ex.printStackTrace();
