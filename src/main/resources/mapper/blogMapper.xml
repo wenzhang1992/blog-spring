@@ -25,6 +25,14 @@
         select * from blogTable
     </select>
 
+    <select id="getBlogByOwnerAndLink" resultType="blogItem" parameterType="String">
+        select * from blogTable where owner=#{owner} and link = #{link}
+    </select>
+
+    <select id="getBlogByLink" resultType="blogItem" parameterType="String">
+        select * from blogTable where link=#{link}
+    </select>
+
     <insert id="insertBlog" parameterType="blogItem" useGeneratedKeys="true" keyProperty="id">
         insert  into blogTable(id,link,title,description,owner,type)
         value(#{id},#{link},#{title},#{description},#{owner},#{type})
@@ -41,6 +49,10 @@
     <delete id="deleteBlogByType" parameterType="String">
         delete from blogTable where blogtype = #{type}
     </delete>
+
+    <update id="updateBlog" parameterType="blogItem">
+
+    </update>
 
     <resultMap id="blogItem" type="BlogItem">
         <result property="link" column="link"/>

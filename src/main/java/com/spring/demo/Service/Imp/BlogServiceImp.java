@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 @ComponentScan("com.spring.demo.DAO")
@@ -18,13 +22,21 @@ public class BlogServiceImp implements IBlogService {
     @Override
     public boolean insertBlog(BlogItem item){
         try{
-            int ret = blogDao.insertBlog(item);
+            ArrayList<BlogItem> items = (ArrayList<BlogItem>) blogDao.getBlogByLink(item.getLink());
 
-            if(ret == 0){
-                return false;
+            if(items.size() ==0 ){
+                int ret = blogDao.insertBlog(item);
+
+                if(ret == 0){
+                    return false;
+                }else{
+                    return true;
+                }
             }else{
-                return true;
+
             }
+
+
         }catch(Exception ex){
             ex.printStackTrace();
             return false;
@@ -33,8 +45,8 @@ public class BlogServiceImp implements IBlogService {
 
 
     @Override
-    public BlogItem[] getBlogByOwner(String owner){
-        BlogItem[] ret;
+    public List<BlogItem> getBlogByOwner(String owner){
+        List<BlogItem> ret;
         try {
             ret = blogDao.getBlogByOwner(owner);
         }catch (Exception ex){
@@ -45,8 +57,8 @@ public class BlogServiceImp implements IBlogService {
     }
 
     @Override
-    public BlogItem[] getBlogByType(String type){
-        BlogItem[] ret;
+    public List<BlogItem> getBlogByType(String type){
+        List<BlogItem> ret;
         try{
             ret = blogDao.getBlogByType(type);
         }catch(Exception ex){
@@ -57,11 +69,24 @@ public class BlogServiceImp implements IBlogService {
     }
 
     @Override
-    public BlogItem[] getBlogByTypeAndOwner(String owner,String type){
-        BlogItem[] ret;
+    public List<BlogItem> getBlogByTypeAndOwner(String owner,String type){
+        List<BlogItem> ret;
         try{
             ret = blogDao.getBlogByTypeAndOwner(owner,type);
         }catch(Exception ex){
+            ex.printStackTrace();
+            ret = null;
+        }
+
+        return ret;
+    }
+
+    @Override
+    public List<BlogItem> getBlogByOwnerAndLink(String owner,String link){
+        List<BlogItem> ret;
+        try{
+            ret = blogDao.getBlogByOwnerAndLink(owner,link);
+        }catch (Exception ex){
             ex.printStackTrace();
             ret = null;
         }

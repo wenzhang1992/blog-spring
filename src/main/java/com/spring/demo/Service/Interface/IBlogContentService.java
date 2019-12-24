@@ -4,5 +4,5 @@ public interface IBlogContentService {
 
     public byte[] BlogContentRead(String filePath);
 
-    public void BlogContentWrite(String filePath,byte[] content);
+    public boolean BlogContentWrite(String filePath,String content);
 }

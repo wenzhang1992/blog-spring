@@ -21,6 +21,10 @@ public class BlogContentServiceImp implements IBlogContentService {
 
                 FileInputStream stream = new FileInputStream(file);
 
+                int size = stream.available();
+
+                content = new byte[size];
+
                 stream.read(content);
 
                 return content;
@@ -35,14 +39,27 @@ public class BlogContentServiceImp implements IBlogContentService {
     }
 
     @Override
-    public void BlogContentWrite(String filePath,byte[] content){
+    public boolean BlogContentWrite(String filePath,String content){
         File file = new File(filePath);
+
         try{
+            if(file.exists() == false){
+                file.createNewFile();
+            }
+
             FileOutputStream stream = new FileOutputStream(file);
-            stream.write(content);
+            stream.write(content.getBytes());
+
+            stream.flush();
+            stream.close();
+
+            return true;
         }catch(Exception ex){
             ex.printStackTrace();
+
         }
+
+        return false;
     }
 
 }
