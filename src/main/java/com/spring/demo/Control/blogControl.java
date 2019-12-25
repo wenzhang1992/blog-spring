@@ -35,12 +35,10 @@ public class blogControl {
 
             for(int i=0;i<items.size();i++){
                 BlogItem item = items.get(i);
-
                 if(item.getType().equals(type) == false){
                     items.remove(i);
                 }
             }
-
             return items;
         }catch (Exception ex){
             ex.printStackTrace();
@@ -57,19 +55,24 @@ public class blogControl {
     @GetMapping("/api/edit/get")
     @ResponseBody
     public editResponseObj getBlogContent(
-            @RequestParam(value="link",required = true)String link,
-            @RequestParam(value="owner",required = true)String userName,
+            @RequestParam(value="id",required = true)int id,
             HttpSession session
     ){
         editResponseObj obj = new editResponseObj();
         try {
-            ArrayList<BlogItem> items = (ArrayList<BlogItem>) session.getAttribute("blogList");
+            //id值为-1，代表直接进行编辑操作
+            if(id == -1){
+                return obj;
+            }
 
+            ArrayList<BlogItem> items = (ArrayList<BlogItem>) session.getAttribute("blogList");
             boolean isExits = false;
+            String link = null;
             for(int i=0 ;i<items.size();i++){
                 BlogItem item = items.get(i);
-                if(item.getLink().equals(link)){
+                if(item.getId() == id){
                     isExits = true;
+                    link = item.getLink();
                 }
             }
             if(isExits){
@@ -111,27 +114,29 @@ public class blogControl {
             obj.setSubmitSuccess(false);
             obj.setSubmitInfo("文件写入失败");
         }else{
-            obj.setSubmitSuccess(true);
-
+            //obj.setSubmitSuccess(true);
+            isSuccess = false;
             if(items.size() == 0){
                 BlogItem item = new BlogItem();
                 item.setLink(requestData.getLink());
                 item.setDescription(requestData.getDescription());
                 item.setType(requestData.getType());
                 item.setOwner((String)session.getAttribute("userName"));
+
+                items.add(item);
             }
-
-            //将数据写入数据库中
-
-
+            //将数据更新到session中，并同步更新到数据库中
             for(int i =0;i<items.size();i++){
-
                 BlogItem item = items.get(i);
-
-                if(item.getLink().equals(link)){
+                if(item.getId()==requestData.getId()){
                     item.setLink(link);
+                    if(service.updateById(item) != 0){
+                        isSuccess = true;
+                    }
                 }
             }
+
+            obj.setSubmitSuccess(true);
         }
 
         return obj;

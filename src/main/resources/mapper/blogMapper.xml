@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.demo.DAO.BlogDao">
+
+    <select id="getBlogById" resultType="blogItem" parameterType="blogItem">
+        select * from blogTable where id = #{id}
+    </select>
+
     <select id="getBlogByOwner" resultMap="blogItem" parameterType="String">
         select * from blogTable where owner = #{owner}
     </select>
@@ -35,7 +40,7 @@
 
     <insert id="insertBlog" parameterType="blogItem" useGeneratedKeys="true" keyProperty="id">
         insert  into blogTable(id,link,title,description,owner,type)
-        value(#{id},#{link},#{title},#{description},#{owner},#{type})
+        value(#{id},#{link},#{title},#{description},#{owner},#{blogtype})
     </insert>
 
     <delete id="deleteBlogByTitle" parameterType="String">
@@ -51,7 +56,15 @@
     </delete>
 
     <update id="updateBlog" parameterType="blogItem">
-
+        update blogTable
+          <trim prefix="set" prefixOverrides=",">
+              <if test="link != null">link = #{link},</if>
+              <if test="title != null">title = #{title},</if>
+              <if test="description != null">description = #{description},</if>
+              <if test="owner != null">owner = #{owner},</if>
+              <if test="type != null">blogtype = #{type}</if>
+          </trim>
+          where id = #{id}
     </update>
 
     <resultMap id="blogItem" type="BlogItem">

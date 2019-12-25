@@ -12,14 +12,22 @@ public class blogRequestObj {
 
     private String content;
 
+    private int id;
+
     public blogRequestObj(){
 
     }
 
-    public blogRequestObj(String link,byte[] content){
+    public blogRequestObj(String link){
         this.link = link;
+    }
 
-        //this.content = content;
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public void setLink(String link){

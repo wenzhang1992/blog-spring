@@ -20,29 +20,18 @@ public class BlogServiceImp implements IBlogService {
     private BlogDao blogDao;
 
     @Override
-    public boolean insertBlog(BlogItem item){
-        try{
-            ArrayList<BlogItem> items = (ArrayList<BlogItem>) blogDao.getBlogByLink(item.getLink());
+    public int updateById(BlogItem item){
 
-            if(items.size() ==0 ){
-                int ret = blogDao.insertBlog(item);
+        ArrayList<BlogItem> items = (ArrayList<BlogItem>) blogDao.getBlogById(item);
 
-                if(ret == 0){
-                    return false;
-                }else{
-                    return true;
-                }
-            }else{
-
-            }
-
-
-        }catch(Exception ex){
-            ex.printStackTrace();
-            return false;
+        if(items.size() == 0){
+            int ret = blogDao.insertBlog(item);
+            return ret;
+        }else{
+            int ret = blogDao.updateBlog(item);
+            return ret;
         }
     }
-
 
     @Override
     public List<BlogItem> getBlogByOwner(String owner){

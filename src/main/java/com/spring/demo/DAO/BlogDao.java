@@ -12,6 +12,8 @@ public interface BlogDao {
 
     public List<BlogItem> getBlogByType(String type);
 
+    public List<BlogItem> getBlogById(BlogItem item);
+
     //mybatis多参数传参，使用Param注解
     public List<BlogItem> getBlogByTypeAndOwner(@Param("owner") String owner, @Param("type") String type);
 
