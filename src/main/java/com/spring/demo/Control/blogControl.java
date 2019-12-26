@@ -76,7 +76,7 @@ public class blogControl {
                 }
             }
             if(isExits){
-                byte[] content = contentService.BlogContentRead("classpath:/upload/"+link);
+                byte[] content = contentService.BlogContentRead(filePath+link);
                 obj.setContent(content);
                 obj.setInfo("读取数据成功");
             }else{
@@ -114,29 +114,41 @@ public class blogControl {
             obj.setSubmitSuccess(false);
             obj.setSubmitInfo("文件写入失败");
         }else{
-            //obj.setSubmitSuccess(true);
-            isSuccess = false;
+
             if(items.size() == 0){
                 BlogItem item = new BlogItem();
-                item.setLink(requestData.getLink());
+                item.setId(requestData.getId());
+                item.setTitle(requestData.getTitle());
                 item.setDescription(requestData.getDescription());
+                item.setOwner((String) session.getAttribute("userName"));
                 item.setType(requestData.getType());
-                item.setOwner((String)session.getAttribute("userName"));
+                item.setLink(requestData.getLink());
 
-                items.add(item);
-            }
-            //将数据更新到session中，并同步更新到数据库中
-            for(int i =0;i<items.size();i++){
-                BlogItem item = items.get(i);
-                if(item.getId()==requestData.getId()){
-                    item.setLink(link);
-                    if(service.updateById(item) != 0){
-                        isSuccess = true;
+                if(service.updateById(item) != 0 ){
+                    isSuccess = true;
+                }
+            }else{
+                for(int i =0;i<items.size();i++){
+                    BlogItem item = items.get(i);
+                    if(item.getId()==requestData.getId()){
+                        item.setLink(link);
+                        item.setType(requestData.getType());
+                        item.setDescription(requestData.getDescription());
+                        item.setTitle(requestData.getTitle());
+                        if(service.updateById(item) != 0){
+                            isSuccess = true;
+                        }
                     }
                 }
             }
 
-            obj.setSubmitSuccess(true);
+            if(isSuccess == false){
+                obj.setSubmitSuccess(false);
+                obj.setSubmitInfo("服务器故障");
+            }else{
+                obj.setSubmitSuccess(true);
+            }
+
         }
 
         return obj;

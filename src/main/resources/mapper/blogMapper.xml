@@ -39,8 +39,8 @@
     </select>
 
     <insert id="insertBlog" parameterType="blogItem" useGeneratedKeys="true" keyProperty="id">
-        insert  into blogTable(id,link,title,description,owner,type)
-        value(#{id},#{link},#{title},#{description},#{owner},#{blogtype})
+        insert  into blogTable(id,link,title,description,owner,blogtype)
+        value(#{id},#{link},#{title},#{description},#{owner},#{type})
     </insert>
 
     <delete id="deleteBlogByTitle" parameterType="String">
