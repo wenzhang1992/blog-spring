@@ -72,18 +72,20 @@ public class blogControl {
                 BlogItem item = items.get(i);
                 if(item.getId() == id){
                     isExits = true;
-                    obj.setItem(item);
+                    link = item.getLink();
                 }
             }
-
             if(isExits){
-                byte[] content = contentService.BlogContentRead(filePath+obj.getItem().getLink());
+                byte[] content = contentService.BlogContentRead(filePath+link);
                 obj.setContent(content);
+                obj.setInfo("读取数据成功");
             }else{
+                obj.setInfo("没有选择的文件");
                 obj.setContent(null);
             }
         }catch (Exception ex){
             ex.printStackTrace();
+            obj.setInfo("数据读取失败");
             obj.setContent(null);
         }
         return obj;
@@ -112,6 +114,7 @@ public class blogControl {
             obj.setSubmitSuccess(false);
             obj.setSubmitInfo("文件写入失败");
         }else{
+
             if(items.size() == 0){
                 BlogItem item = new BlogItem();
                 item.setId(requestData.getId());

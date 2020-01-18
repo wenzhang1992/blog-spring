@@ -1,12 +1,8 @@
 package com.spring.demo.Control.ResponseObj;
 
-import com.spring.demo.Entity.BlogItem;
-
 public class editResponseObj {
 
-    private String content;
-
-    private BlogItem item;
+    private byte[] content;
 
     private String info;
 
@@ -14,31 +10,26 @@ public class editResponseObj {
 
     }
 
-    public editResponseObj(String content){
+    public editResponseObj(byte[] content,String info){
         this.content = content;
+
+        this.info = info;
     }
 
-    public String getContent(){
+    public byte[] getContent(){
         return this.content;
     }
 
     public void setContent(byte[] content){
-        this.content = new String(content);
-    }
-
-    public BlogItem getItem(){
-        return this.item;
-    }
-
-    public void setItem(BlogItem item){
-        this.item=item;
+        this.content = content;
     }
 
     public String getInfo(){
-        return  this.info;
+        return this.info;
     }
 
     public void setInfo(String info){
         this.info = info;
     }
+
 }
